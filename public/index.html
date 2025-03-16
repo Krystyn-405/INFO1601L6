@@ -1,6 +1,113 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    <nav>
+        <div class="nav-wrapper teal" style="padding-left: 10px;">
+           <a href="#!" class="brand-logo">Ajax Demo</a>
+        </div>
+    </nav>
+    <main class="row" style="padding: 40px">
+         <table>
+           <thead>
+                <tr>
+                   <th>#</th>
+                   <th>Name</th>
+                   <th>Type</th>
+                   <th>Website</th>
+                </tr>
+                </thead>
+                  <tbody id="result">
+                                                
+                  </tbody>
+           </table>
+     </main>
+     <script>
+      let record = {
+        id: 1,
+        name: "bob's",
+        brewery_type: "fire",
+        website_url: "https://bobs.com"
+      }
+      
+      // What a row in the table would look like
+      // let row = `<tr>
+      //       <td>$[record.id]]</td>
+      //       <td>$[record.name]]</td>
+      //       <td>$[record.brewery_type]]</td>
+      //       <td>$[record.website_url]]</td>
+      // </tr>`;
+
+      // //drawTable () function
+      function drawTable (records) {
+        let result = document.querySelector("#result");
+        let html = ``; 
+        for(let record of records){
+          html += `<tr>
+            <td>${record.id}</td>
+            <td>${record.name}</td>
+            <td>${record.brewery_type}</td>
+            <td>${record.website_url}</td>
+          </tr>`;
+        }
+      result.innerHTML = html;  // Adds the html string to DOM
+       }
+      //  drawTable([record]);
+
+       //getData(url) function 
+       //fetch data from API. Use the REQUEST function. Must be declared ASYNC
+        async function getData(url){
+          try{
+            let response = await fetch(url) //1. Send http request and get response
+            let result = await response.json(); //2. Get data from response
+            drawTable(result); //3. Draw table with data
+          } catch (e){
+            console.log(e); //4. Log any errors
+          }
+        }
+        getData("https://api.openbrewerydb.org/breweries/search?query=harry");
+
+      // Extra implementation
+      // function drawTable(records){
+      //     let result = document.querySelector('#result');
+      //     //add html code inside of result
+      //     let html = '';// create html string
+      //     for(let record of records){
+      //         //build html string
+      //         html += `<tr id="${record.id}">
+      //           <td>${record.id}</td>
+      //           <td>${record.name}</td>
+      //           <td>${record.brewery_type}</td>
+      //           <td><a href="#${record.id}" onclick="getData('https://api.openbrewerydb.org/breweries/${record.id}', drawDetails)" >View More Details</a></td>    
+      //         </tr>`;
+      //     }
+      //     result.innerHTML = html;//add html string to DOM
+      // }
+
+        // Finds the <tbody> element where rows will be inserted (#result)
+        // Loops through each record in the records array
+        // Builds a table row (<tr>) for each record
+        // Creates a "View More Details" link inside each row
+        // When the link is clicked, it calls getData() to fetch details
+        // Inserts the generated rows into the table
+     </script>
+  </body>
+</html>
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>repl.it</title>
@@ -12,13 +119,90 @@
     <input type="button" id="alertBtn" value="alert" onclick="alertFun()"/>
     <input type="button" value="confirm" onclick="confirmFun()"/>
     <input type="button" value="prompt" onclick="promptFun()"/>
-
+    <input id="myBtn" type="button" value="Click me" onclick="myFun()"/>
     <span id="result"></span>
 
+    <h2>Image Loading Exercise</h2>
+    <input img id="cageImg" src="https://www.placecage.com/300/200" alt="Nicolas Cage Image">
     <script>
+      function alertFun(){
+        alert ("Hello !");
+      }
+
+      function confirmFun (){
+        let didConfirm = confirm("Are you sure about that?");
+        if (didConfirm){
+          alert("You confirmed :)");
+        } else {
+          alert ("You did not confirm :( ");
+        }
+      }
+
+      function promptFun(){
+        let val = prompt("What is your name?");
+        alert(`You have entered: ${val}`);      //Remember to use template literals(`) not single quotes(')
+      }
+      //get client data using navigator
+        console.log(window.navigator.cookieEnabled);
+        console.log(window.navigator.onLine);
+        console.log(navigator.appVersion);
+        console.log(navigator.userAgent)
+        console.log(navigator.platform);
+
+        //get window metadata using window
+        console.log(window.location.href);//get full url
+        console.log(window.location.protocol);
+        console.log(window.location.hostname);
+
+        function redirect(url){
+          window.location.assign(url);//redirects the page to another url
+        }
+
+        window.onload = function(event){
+          console.log("Page has loaded");
+          //do other javascript stuff here
+        }
+      const result = document.querySelector(`#result`);
+      result.innerHTML = `<h2>My Span</h2>`;
+      result.style.color = `blue`;
+      
+      function myFun(){
+        alert("Hello");
+      }
+
+      function myFun2(){
+        console.log("myFun2 called");
+      }
+
+      function logEventType(event){
+        console.log(event.type);
+      }
+
+      let myBtn = document.querySelector("#myBtn");
+
+      myBtn.addEventListener("click", myFun2);
+      myBtn.addEventListener("mouseover", logEventType);
+      myBtn.addEventListener("mouseout", logEventType);
+      //these events will fire when the mouse pointer hovers/passes over the button
+      
+     function loaded (){
+      console.log("Img loaded");
+     } 
+
+     let cageImg = document.querySelector("#cageImg");
+     cageImg.addEventListener("load", loaded);
+
+     let obj2 = myobj;  
+     obj2.name = "Shelly";
+     console.loh(obj2.name);
+
+     let obj3 = {};
+     obj3.assign(obj3, myobj);
+     obj3.name = "Smith";
+     console.log (myobj.name, obj3.name);
 
 
     </script>
     <script src="script.js"></script>
   </body>
-</html>
+</html> -->
